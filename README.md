@@ -1,6 +1,6 @@
 
 
-#Download Apache kafka:
+#Download Apache kafka and install:
 
 wget https://www.apache.org/dyn/closer.cgi?path=/kafka/0.10.1.1/kafka-0.10.1.1-src.tgz
 
@@ -8,10 +8,10 @@ Unzip the downloaded folder and copy it to /usr/local/bin/kafka
 
 # scripts
 
-/site-docs:  contains an archive of all documentaions that you can find online
-/libs: contains all the dependencies kafka has to run( ex: zookeeper ...).
-/config: contains all the files you need to configure the differnet kafka components.
-/bin:  contains all the programs kafka needs to run up in different capacities.
+**/site-docs**:  contains an archive of all documentaions that you can find online.  
+**/libs:** contains all the dependencies kafka has to run( ex: zookeeper ...).  
+**/config:** contains all the files you need to configure the differnet kafka components.  
+**/bin:** contains all the programs kafka needs to run up in different capacities.    
 
 # command line
 
@@ -42,23 +42,28 @@ To ensure that your topic is created verify that the folder my_topic-0 is create
   ll /tmp/kafka-logs
 
 ## get list of topics:
-
+```shell
   sudo bin/kafka-topics.sh --list --zookeeper localhost:2182
-
+```
 ## Console producer : write your message and type enter  
-
+```shell
   sudo bin/kafka-console-producer.sh --broker-list localhost:9092 --topic my_topic
-
+```
 
 ## Console Consumer
-  sudo bin/kafka-console-consumer.sh --zookeeper localhost:2182 --topic my_topic --from-beginning
 
+```shell
+  sudo bin/kafka-console-consumer.sh --zookeeper localhost:2182 --topic my_topic --from-beginning
+```
 # Demo. Fault-tolerance and Resiliency in Apache Kafka
 
 ## create a topic with replication factory and partitions
 
+```shell
   sudo bin/kafka-topics.sh --create --topic my_topic --zookeeper localhost:2182 --replication-factor rep_f	ctor --partitions partition_number 
-
+```
 ## topic info
 
+```shell
   sudo bin/kafka-topics.sh --describe --topic my_topic --zookeeper localhost:2182 
+```
