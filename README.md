@@ -44,6 +44,31 @@ To ensure that your topic is created verify that the folder my_topic-0 is create
 ## get list of topics:
 
   sudo bin/kafka-topics.sh --list --zookeeper localhost:2182
+  
+## Adding Partitions to a Topic
+
+Apache Kafka provides us with alter command to change Topic behaviour and add/modify configurations. We will be using alter command to add more partitions to an existing Topic.
+
+Here is the command to increase the partitions count from 2 to 3 for topic 'my-topic' -
+
+```shell
+./bin/kafka-topics.sh --alter --zookeeper localhost:2181 --topic my-topic --partitions 3
+```
+
+## Delete a Topic 
+
+Stop Kafka server.
+Set the property delete.topic.enable to true on broker conf file (/conf/server.properties).
+
+```shell
+bin/kafka-topics.sh --delete --zookeeper localhost:2182 --topic my_rep_topic
+```
+## Test Performance
+
+This script is used to charge test performance
+```shell
+./bin/kafka-producer-perf-test.sh --topic myreptopic --num-records 100 --record-size 20 --throughput 10 --producer-props bootstrap.servers=localhost:9092,localhost:9094 key.serializer=org.apache.kafka.common.serialization.StringSerializer value.serializer=org.apache.kafka.common.serialization.StringSerializer
+```
 
 ## Console producer : write your message and type enter  
 
