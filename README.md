@@ -38,13 +38,13 @@ sudo bin/kafka-topics.sh --create --topic my_topic --zookeeper localhost:2182 --
 ```
 
 To ensure that your topic is created verify that the folder my_topic-0 is created on the /tmp/kafka-logs  
-
+```shell
   ll /tmp/kafka-logs
-
+```
 ## get list of topics:
-
+```shell
   sudo bin/kafka-topics.sh --list --zookeeper localhost:2182
-  
+```
 ## Adding Partitions to a Topic
 
 Apache Kafka provides us with alter command to change Topic behaviour and add/modify configurations. We will be using alter command to add more partitions to an existing Topic.
@@ -71,23 +71,25 @@ This script is used to charge test performance
 ```
 
 ## Console producer : write your message and type enter  
-
+```shell
   sudo bin/kafka-console-producer.sh --broker-list localhost:9092 --topic my_topic
-
+```
 
 # Demo. Fault-tolerance and Resiliency in Apache Kafka
 
 ## create a topic with replication factory and partitions
-
+```shell
   sudo bin/kafka-topics.sh --create --topic my_topic --zookeeper localhost:2182 --replication-factor rep_f	ctor --partitions partition_number 
-
+```
 ## topic info
-
+```shell
   sudo bin/kafka-topics.sh --describe --topic my_topic --zookeeper localhost:2182 
-
+```
 # Consumer
 ## Console Consumer
+```shell
   sudo bin/kafka-console-consumer.sh --zookeeper localhost:2182 --topic my_topic --from-beginning
+```
 ## Subscribe Vs  Assign on consumption process
 
 By calling the **subscribe** method, you are asking for automatic or dynamic partition assignment. 
