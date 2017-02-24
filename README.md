@@ -1,6 +1,6 @@
+# Shaping Up with Apache Kafka
 
-
-#Download Apache kafka:
+# Download and Install Apache kafka:
 
 wget https://www.apache.org/dyn/closer.cgi?path=/kafka/0.10.1.1/kafka-0.10.1.1-src.tgz
 
@@ -150,3 +150,36 @@ With this manual offset management mode, you may be trading throughput and perfo
 Like the commitSync method, you would use its asynchronous sibling to control when to consider your messages truly processed. 
 The difference here is due to the asynchronous nature of the call, you may not know exactly when the commit succeeded or not. Because of this, the **commitAsync** method does not automatically retry when a commit doesn't happen. Retrying without knowing whether the first attempt succeeded of failed can lead to ordering issues and possible duplication of records; however, there is a useful option to pass in, and that is a callback. 
 That callback will be triggered upon the commit response from the cluster. With this callback, you can determine the status of the commit and act accordingly. Since this is a non-blocking option, the throughput and overall performance is going to be better because you will not have to wait for a response to continue processing.
+
+
+# Advanced Configurations
+## Performance and overall efficiency
+
+**fetch.min.bytes** : sets as minimum number of bytes that must be returned from the poll. This ensures that you don't have wasted cycles of processing if there aren't enough messages to process. This setting is analogous to the batch size setting on the producer.  
+
+**max.fetch.wait.ms** : establishes the amount of time to wait if there isn't enough data to meet the threshold set by the **fetch.min.bytes** setting. This is somewhat analogous to the **linger.ms** setting in the producer. 
+
+**max.partitions.fetch.bytes** : To ensure that each poll isn't retrieving more data than your processing loop can handle safely, you can set the maximum number of bytes per partition that the poll can retrieve per cycle. 
+
+**max.poll.records** :Related to this is the setting to establish the maximum number of records allowed per poll cycle. 
+
+These last two settings are useful to throttle the number and size of each incoming batch of records, should your processing loop be such that a lot of time is spent in processing and you don't want to risk a session timeout. 
+
+## Consumer position control API
+
+It comprises of three methods. 
+
+**seek()**: allowing you to specify the specific offset you want to read in a given topic and partition. 
+
+**seekToBeginning()** which indicates that you want to start from the beginning of a group of a specific topics and partitions. 
+
+**seekToEnd()** is the opposite of seekToBeginning. 
+
+
+## Flow Control
+There's the ability to literally control the flow of messages through **pause()** and **resume()** APIs. These allow you to determine which topics and partitions you may want to pause while focusing on other topics and partitions considered a higher priority. 
+This is useful for situations where a single consumer has to read from multiple different topics and partitions.
+
+## Rebalance listeners
+
+you can leverage when subscribing to topics in a consumer group. These listeners will notify you when a rebalance event occurs, so you can manage how you want to handle the offsets yourself. 
